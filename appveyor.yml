@@ -1,0 +1,12 @@
+version: 1.0.{build}
+skip_tags: true
+image: 
+  - Visual Studio 2017
+  - Ubuntu
+before_build:
+  - dotnet restore ./src/Itix.Agenda.sln
+build_script:
+  - dotnet build ./src/Itix.Agenda.sln
+test_script:
+  - cd ./src/Itix.Agenda.Tests
+  - dotnet test
