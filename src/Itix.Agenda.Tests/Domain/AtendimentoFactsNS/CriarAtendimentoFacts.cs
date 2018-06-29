@@ -83,15 +83,15 @@ namespace Itix.Agenda.Tests.Agenda.AtendimentoFactsNS
             void periodo_informado_esta_indisponivel()
             {
                 //ARRANGE
-                var atendimento = Substitute.For<Atendimento>();
-                atendimentoRepo.ExisteAtendimentoNoHorario(horario).Returns(atendimento);//SIM
+                var atendimentos = new List<Atendimento> { Substitute.For<Atendimento>() };
+                atendimentoRepo.ExisteColisaoComOHorario(horario).Returns(atendimentos);//SIM
 
                 //ACT
                 var ex = Should.Throw<DomainException>(() => new Atendimento(atendimentoRepo, timeProvider, horario, paciente, observacao));
 
 
                 //ASSERT
-                ex.Message.ShouldBe("Já existe um Atendimento marcado para o Horário informado");
+                ex.Message.ShouldBe("Já existe Atendimento marcado para o Horário informado");
             }
 
 

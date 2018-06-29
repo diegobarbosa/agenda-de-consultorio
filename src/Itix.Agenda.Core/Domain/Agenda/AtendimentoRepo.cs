@@ -9,7 +9,7 @@ namespace Itix.Agenda.Core.Agenda
 {
     public interface IAtendimentoRepo
     {
-        Atendimento ExisteAtendimentoNoHorario(PeriodoFechado periodo, int? idAtendimentoParaIgnorar = null);
+        List<Atendimento> ExisteColisaoComOHorario(PeriodoFechado periodo, int? idAtendimentoParaIgnorar = null);
 
         void Insert(Atendimento atendimento);
 
@@ -27,41 +27,59 @@ namespace Itix.Agenda.Core.Agenda
         public Atendimento ById(int idAtendimento) =>
                 uow.GetById<Atendimento>(idAtendimento);
 
-        public Atendimento ExisteAtendimentoNoHorario(PeriodoFechado horario, int? idAtendimentoParaIgnorar = null)
+        public List<Atendimento> ExisteColisaoComOHorario(PeriodoFechado horario, int? idAtendimentoParaIgnorar = null)
         {
-         // Cenários de Referência:
-         // Dessa forma é possível term um horário 14:00 às 15:00 e de 15:00 às 16:00
-         //
-         //   declare @dataInicial datetime = '2018-06-29 15:00'
-         //   declare @dataFinal datetime = '2018-06-29 16:00'
+            // Cenários de Referência em migrations/teste-de-colisao-de-datas.sql
+            //Referência: http://salman-w.blogspot.com/2012/06/sql-query-overlapping-date-ranges.html
 
-         //   select * 
-         //   from atendimento
+            var sql = @"
 
-         //   where (atendimento.data_final > @dataInicial  and atendimento.data_final <= @dataFinal )
-	     //   or (atendimento.data_inicial >= @dataInicial and atendimento.data_inicial <= @dataFinal)
-                
-         //   --Nova Data----------------15:00---------------16:00-------------
-         //   --B-------------14:00---------------15:30----------------------------
-         //   --C-----------------------------------15:30----16:00-----
-         //   --B-------------14:00------15:00----------------------------
+    select {atend.*}
+        
+    from atendimento atend
+    
+    where
 
+        atend.status = :statusMarcado
 
+and 
+	
+(
+		   (atend.data_final > :novaDataInicial  and atend.data_final <= :novaDataFinal )   -- caso 1
 
-            var query = (from atend in uow.QueryByLinq<Atendimento>()
-                         where ((atend.Horario.DataFinal > horario.DataInicial && atend.Horario.DataFinal <= horario.DataFinal)
-                             || (atend.Horario.DataInicial >= horario.DataInicial && atend.Horario.DataInicial <= horario.DataFinal)
-                            )
-                            && atend.Status == TipoStatus.MARC
-                         select atend
-                            );
+		or (atend.data_inicial >= :novaDataInicial and atend.data_inicial < :novaDataFinal) -- caso 2
+	
+		or (atend.data_inicial = :novaDataInicial and atend.data_final = :novaDataFinal)    -- caso 3
+	
+		or (atend.data_inicial > :novaDataInicial and atend.data_final < :novaDataFinal)    -- caso 4 
+
+		or (atend.data_inicial < :novaDataInicial and atend.data_final > :novaDataFinal)    -- caso 5
+	
+	)
+
+";
 
             if (idAtendimentoParaIgnorar.HasValue)
             {
-                query = query.Where(x => x.IdAtendimento != idAtendimentoParaIgnorar);
+                sql += " and atend.id_atendimento != :idAtendimentoParaIgnorar";
             }
 
-            return query.SingleOrDefault();
+
+            var query = uow
+            .Session
+            .CreateSQLQuery(sql)
+            .AddEntity("atend", typeof(Atendimento))
+            .SetDateTime("novaDataInicial", horario.DataInicial)
+            .SetDateTime("novaDataFinal", horario.DataFinal)
+            .SetString("statusMarcado", TipoStatus.MARC.ToString());
+
+            if (idAtendimentoParaIgnorar.HasValue)
+            {
+                query.SetInt32("idAtendimentoParaIgnorar", idAtendimentoParaIgnorar.Value);
+            }
+
+
+            return query.List<Atendimento>().ToList();
 
         }
 

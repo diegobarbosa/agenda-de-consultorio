@@ -5,6 +5,7 @@ using Itix.Agenda.Core.Infra.Utils;
 using Itix.Agenda.Core.Agenda;
 using NSubstitute;
 using Itix.Agenda.Core.Domain.Pacientes;
+using System.Collections.Generic;
 
 namespace Itix.Agenda.Tests
 {
@@ -31,8 +32,8 @@ namespace Itix.Agenda.Tests
             atendimentoRepo = Substitute.For<IAtendimentoRepo>();
 
             //Por padrão o atendimento não conflita com nenhum outro
-            Atendimento atendimentoExistente = null;
-            atendimentoRepo.ExisteAtendimentoNoHorario(null).ReturnsForAnyArgs(atendimentoExistente);//NAO
+            var atendimentoExistente = new List<Atendimento>() ;
+            atendimentoRepo.ExisteColisaoComOHorario(null).ReturnsForAnyArgs(atendimentoExistente);//NAO
 
 
 

@@ -53,9 +53,9 @@ namespace Itix.Agenda.Core.Agenda
             Assegure.Que(horario.DataInicial >= timeProvider.Now, () => "Informe um Horário com data maior ou igual a de agora");
 
 
-            var atendimento = atendimentoRepo.ExisteAtendimentoNoHorario(horario);
+            var atendimentos = atendimentoRepo.ExisteColisaoComOHorario(horario);
 
-            Assegure.Que(atendimento == null, () => $"Já existe um Atendimento marcado para o Horário informado");
+            Assegure.Que(atendimentos.Count == 0, () => $"Já existe Atendimento marcado para o Horário informado");
 
 
             Horario = horario;
@@ -109,9 +109,9 @@ namespace Itix.Agenda.Core.Agenda
 
 
 
-            var atendimento = atendimentoRepo.ExisteAtendimentoNoHorario(horario, this.IdAtendimento);
+            var atendimentos = atendimentoRepo.ExisteColisaoComOHorario(horario, this.IdAtendimento);
 
-            Assegure.Que(atendimento == null, () => $"Já existe um Atendimento marcado para o Horário informado");
+            Assegure.Que(atendimentos.Count == 0, () => $"Já existe Atendimento marcado para o Horário informado");
 
 
             Paciente = paciente;
