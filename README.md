@@ -70,7 +70,7 @@ Pelo mesmo motivo também não criei um cadastro de Pacientes, fugiria do escopo
 
 # ScreenShots
 ## Home
-![Home](/screenshots/home.PNG?raw=true "Home")
+![Home](/screenshots/home.png?raw=true "Home")
 
 ## Marcar Consulta
-![Marcar Consulta](/screenshots/marcar-consulta.PNG?raw=true "Marcar Consulta")
+![Marcar Consulta](/screenshots/marcar-consulta.png?raw=true "Marcar Consulta")
