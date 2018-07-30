@@ -47,7 +47,7 @@ Pelo mesmo motivo também não criei um cadastro de Pacientes, fugiria do escopo
 	- Itix.Agenda.UI: 
 		- Asp.Net MVC Core. 
 		- Aplicação do conceito de Feature Folders.
-		- Aplicação do Pattern Command and Query / CQS / Mediator nos controllers.
+		- Aplicação do Pattern Command and Query / CQRS / Mediator nos controllers.
 		- Controller da agenda/AtendimentoController implementado em REST.
 		- Há repetição de código nos controllers (if/else) pode ser resolvido com o uso de uma Fluent Interface: mediator.Execute(command).OnSuccess(x=>x.OK()) ...
 		- Utilização do AngularJS com FrontEnd com o conceito de Smart Components e Dumb Components.
