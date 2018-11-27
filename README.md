@@ -1,13 +1,14 @@
-# Desafio Itix
-Desafio Itix. Um sistema de Agenda. https://github.com/ItixTI/trabalhe-conosco-desafio-01 (requisitos.md)
+# Agenda de Consutório
+Um sistema de Agenda.
 
-<!--- [![build](https://ci.appveyor.com/api/projects/status/github/diegobarbosa/desafioitix?svg=true)](https://ci.appveyor.com/project/diegobarbosa/desafioitix)-->
+<!--- [![build](https://ci.appveyor.com/api/projects/status/github/diegobarbosa/agenda-de-consultorio
+?svg=true)](https://ci.appveyor.com/project/diegobarbosa/agenda-de-consultorio)-->
 
 # Continuous Integration com AppVeyor
 
-[![AppVeyor](https://img.shields.io/appveyor/ci/diegobarbosa/desafioitix.svg)](https://ci.appveyor.com/project/diegobarbosa/desafioitix)    [![AppVeyor](https://img.shields.io/appveyor/tests/diegobarbosa/desafioitix.svg)](https://ci.appveyor.com/project/diegobarbosa/desafioitix)
+[![AppVeyor](https://img.shields.io/appveyor/ci/diegobarbosa/agenda-de-consultorio.svg)](https://ci.appveyor.com/project/diegobarbosa/agenda-de-consultorio)    [![AppVeyor](https://img.shields.io/appveyor/tests/diegobarbosa/agenda-de-consultorio.svg)](https://ci.appveyor.com/project/diegobarbosa/agenda-de-consultorio)
 
-https://ci.appveyor.com/project/diegobarbosa/desafioitix
+https://ci.appveyor.com/project/diegobarbosa/agenda-de-consultorio
 
 # Rodando do Visual Studio
 Depois de clonar o repositório é necessário criar um banco de dados **SqlExpress** (para usar localDB é necessário alterar a string de conexão) chamado **Agenda** e rodar a migration contida em **/migrations/0001 - init.sql**. Há também um arquivo com seed de dados **seed.sql** . 
@@ -44,7 +45,7 @@ Pelo mesmo motivo também não criei um cadastro de Pacientes, fugiria do escopo
 
 # Arquitetura do Sistema
 - A Solution do Aplicativo está divida em 3 Projetos
-	- Itix.Agenda.UI: 
+	- Agenda.UI: 
 		- Asp.Net MVC Core. 
 		- Aplicação do conceito de Feature Folders.
 		- Aplicação do Pattern Command and Query / CQRS / Mediator nos controllers.
@@ -53,8 +54,8 @@ Pelo mesmo motivo também não criei um cadastro de Pacientes, fugiria do escopo
 		- Utilização do AngularJS com FrontEnd com o conceito de Smart Components e Dumb Components.
 		- A app AngularJS estar na pasta wwwroot/Features
 		
-	- Itix.Agenda.Core: Lógica de Negócio do Sistema
-	- Itix.Agenda.Tests: 
+	- Agenda.Core: Lógica de Negócio do Sistema
+	- Agenda.Tests: 
 		- Testes unitários do Sistema. 
 		- Obs: O sub módulo infra não possui testes pois ele foi formado a partir classes que uso em outros projetos e já possuem testes.
 		
